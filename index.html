@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Player · Modern MP3</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header with theme toggle and folder picker -->
+        <header>
+            <h1><i class="fas fa-quran"></i> Quran Player</h1>
+            <div class="header-controls">
+                <button id="theme-toggle" class="icon-btn" title="Toggle dark/light mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="folder-picker" class="primary-btn">
+                    <i class="fas fa-folder-open"></i> Select Quran Folder
+                </button>
+                <button id="refresh-folder" class="icon-btn" title="Refresh track list" disabled>
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main content: track list + now playing -->
+        <div class="main-content">
+            <!-- Left column: track list with search -->
+            <section class="track-list-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Filter tracks...">
+                </div>
+                <div id="track-list-container">
+                    <div class="placeholder-message">
+                        <i class="fas fa-music"></i>
+                        <p>No tracks loaded. Please select your Quran folder.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right column: now playing & thumbnail -->
+            <section class="now-playing-section">
+                <div class="thumbnail-container">
+                    <div id="album-thumbnail" class="thumbnail">
+                        <i class="fas fa-quran"></i>
+                        <canvas id="visualizer" width="200" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <h3 id="current-track-name">No track selected</h3>
+                    <p id="current-track-artist">Quran Recitation</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Player controls (fixed bottom) -->
+        <footer class="player-controls">
+            <!-- Progress bar -->
+            <div class="progress-container">
+                <span id="current-time">0:00</span>
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span id="duration">0:00</span>
+            </div>
+
+            <!-- Main buttons -->
+            <div class="control-buttons">
+                <button id="shuffle-btn" class="control-icon" title="Shuffle"><i class="fas fa-random"></i></button>
+                <button id="prev-btn" class="control-icon" title="Previous"><i class="fas fa-step-backward"></i></button>
+                <button id="play-pause-btn" class="control-icon play-pause" title="Play/Pause"><i class="fas fa-play"></i></button>
+                <button id="next-btn" class="control-icon" title="Next"><i class="fas fa-step-forward"></i></button>
+                <button id="repeat-btn" class="control-icon" title="Repeat"><i class="fas fa-repeat"></i></button>
+            </div>
+
+            <!-- Volume control -->
+            <div class="volume-container">
+                <button id="mute-btn" class="control-icon" title="Mute"><i class="fas fa-volume-up"></i></button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8">
+            </div>
+        </footer>
+    </div>
+
+    <!-- Hidden file input for fallback (webkitdirectory) -->
+    <input type="file" id="fallback-folder-input" webkitdirectory directory multiple style="display: none;">
+
+    <script src="script.js"></script>
+</body>
+</html>

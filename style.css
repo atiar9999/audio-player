@@ -1,0 +1,520 @@
+/* ========== RESET & VARIABLES ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Light mode */
+    --bg-primary: #f9fafb;
+    --bg-secondary: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --accent: #3b82f6;        /* blue-500 */
+    --accent-hover: #2563eb;
+    --border: #e5e7eb;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    --hover-bg: #f3f4f6;
+    --player-bg: rgba(255,255,255,0.8);
+    --backdrop-blur: blur(10px);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border: #374151;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    --hover-bg: #374151;
+    --player-bg: rgba(31, 41, 55, 0.8);
+}
+
+body {
+    font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background 0.3s ease, color 0.2s ease;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.app-container {
+    max-width: 1300px;
+    width: 100%;
+    background: var(--bg-secondary);
+    border-radius: 2rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: var(--backdrop-blur);
+    transition: background 0.3s;
+}
+
+/* ========== HEADER ========== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+}
+
+.header-controls {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.primary-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+.primary-btn:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+    transform: scale(1.02);
+}
+
+.icon-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background: var(--hover-bg);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.icon-btn:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 1.5rem;
+    padding: 2rem;
+    min-height: 400px;
+}
+
+/* Track list section */
+.track-list-section {
+    background: var(--bg-primary);
+    border-radius: 1.5rem;
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.search-bar i {
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.search-bar input::placeholder {
+    color: var(--text-secondary);
+}
+
+#track-list-container {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--border);
+}
+
+#track-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+#track-list-container::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 3px;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+}
+
+.track-item:hover {
+    background: var(--hover-bg);
+    border-color: var(--border);
+    transform: translateX(4px);
+}
+
+.track-item.active {
+    background: var(--accent);
+    color: white;
+}
+
+.track-item .track-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: white;
+    font-size: 1rem;
+}
+
+.track-item .track-name {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.placeholder-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.placeholder-message i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+/* Now playing section */
+.now-playing-section {
+    background: var(--bg-primary);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.thumbnail-container {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1.5rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--accent), #1e3a8a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: rgba(255,255,255,0.9);
+    position: relative;
+}
+
+#visualizer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.track-info h3 {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    word-break: break-word;
+}
+
+.track-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ========== PLAYER CONTROLS (FOOTER) ========== */
+.player-controls {
+    background: var(--player-bg);
+    backdrop-filter: var(--backdrop-blur);
+    border-top: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+}
+
+.control-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.control-icon {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.control-icon:hover {
+    background: var(--hover-bg);
+    transform: scale(1.1);
+}
+
+.control-icon.play-pause {
+    background: var(--accent);
+    color: white;
+    font-size: 1.8rem;
+}
+
+.control-icon.play-pause:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 0 20px var(--accent);
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#volume-slider {
+    width: 120px;
+    height: 5px;
+    -webkit-appearance: none;
+    background: var(--border);
+    border-radius: 5px;
+    outline: none;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+#volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 800px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    .now-playing-section {
+        order: -1;
+    }
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        text-align: center;
+    }
+    .header-controls {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .control-buttons {
+        gap: 0.5rem;
+    }
+    .volume-container {
+        flex-direction: column;
+    }
+    .app-container {
+        border-radius: 1rem;
+    }
+}
+/* ---------- Fix thumbnail overlay ---------- */
+.thumbnail i {
+    position: relative;
+    z-index: 2;              /* place icon above canvas */
+    font-size: 5rem;         /* slightly larger for visibility */
+}
+
+#visualizer {
+    z-index: 1;              /* keep canvas behind the icon */
+    opacity: 0.3;            /* make bars more subtle */
+}
+
+/* ---------- Album‑style thumbnails for the track list ---------- */
+.track-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.track-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: var(--accent);  /* fallback, will be overwritten by JS */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: white;
+    text-transform: uppercase;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+.track-item:hover .track-thumb {
+    transform: scale(1.05);
+}
+
+.track-info {
+    flex: 1;
+    min-width: 0;            /* allows text truncation */
+}
+
+.track-name {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* Remove old .track-icon styles if they exist – we no longer use them */
+.track-icon {
+    display: none;
+}
+/* Thumbnail image (for now‑playing) */
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;           /* above the canvas, below the icon? we'll hide icon when image present */
+    border-radius: inherit;
+}
+
+.thumbnail i {
+    z-index: 3;           /* icon above image (but we'll hide it when image exists) */
+}
+
+.thumbnail.has-image i {
+    display: none;        /* hide icon when we have an actual image */
+}
+
+/* Track list image thumbnails */
+.track-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.track-thumb {
+    overflow: hidden;      /* ensure image fits inside rounded square */
+    position: relative;
+}
