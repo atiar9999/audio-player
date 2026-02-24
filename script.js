@@ -506,3 +506,19 @@ function handleKeyboard(e) {
 function showPlaceholder(msg) {
     trackListContainer.innerHTML = `<div class="placeholder-message"><i class="fas fa-folder-open"></i><p>${msg}</p></div>`;
 }
+window.addEventListener('keydown', function(e) {
+    const audio = document.querySelector('audio'); // আপনার অডিও এলিমেন্টটি সিলেক্ট করুন
+    if (!audio) return;
+
+    if (e.key === "ArrowUp") {
+        e.preventDefault(); // পেজ স্ক্রল হওয়া বন্ধ করতে
+        if (audio.volume < 1) {
+            audio.volume = Math.min(1, audio.volume + 0.1);
+        }
+    } else if (e.key === "ArrowDown") {
+        e.preventDefault(); // পেজ স্ক্রল হওয়া বন্ধ করতে
+        if (audio.volume > 0) {
+            audio.volume = Math.max(0, audio.volume - 0.1);
+        }
+    }
+});
